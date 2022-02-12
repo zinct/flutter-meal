@@ -16,11 +16,69 @@ class _MainScreenState extends State<MainScreen> {
     {'screen': const FavoritesScreen(), 'label': 'Your favorites'},
   ];
 
+  Widget buildDrawerHeader() {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      height: 100,
+      width: double.infinity,
+      child: const Center(
+        child: Text(
+          'Cooking Yummy!',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDrawerItems() {
+    return Column(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.food_bank),
+          title: const Text('Find food.'),
+          onTap: () {
+            setState(() {
+              _selectedIndex = 0;
+            });
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.star),
+          title: const Text('Your favorite foods.'),
+          onTap: () {
+            setState(() {
+              _selectedIndex = 1;
+            });
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.close),
+          title: const Text('Close'),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_bodies[_selectedIndex]['label'].toString()),
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            buildDrawerHeader(),
+            buildDrawerItems(),
+          ],
+        ),
       ),
       body: _bodies[_selectedIndex]['screen'] as Widget,
       bottomNavigationBar: BottomNavigationBar(
