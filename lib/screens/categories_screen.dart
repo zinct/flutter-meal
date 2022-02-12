@@ -26,47 +26,48 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.orange[50],
-        child: GridView.count(
-          padding: const EdgeInsets.all(5),
-          crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          childAspectRatio: 4 / 3,
-          children: _categories
-              .map(
-                (row) => Material(
-                  child: InkWell(
-                    onTap: () => _onSelectCategory(row, context),
-                    splashColor: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: [
-                            row.color.withOpacity(.7),
-                            row.color.withOpacity(1),
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
+    return Container(
+      color: Colors.orange[50],
+      child: GridView.count(
+        padding: const EdgeInsets.all(15),
+        crossAxisCount: 2,
+        mainAxisSpacing: 15,
+        crossAxisSpacing: 15,
+        childAspectRatio: 4 / 3,
+        children: _categories
+            .map(
+              (row) => Material(
+                child: InkWell(
+                  onTap: () => _onSelectCategory(row, context),
+                  splashColor: Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                        colors: [
+                          row.color.withOpacity(.7),
+                          row.color.withOpacity(1),
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
                       ),
-                      child: Container(
-                        margin: EdgeInsets.all(10),
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: Center(
                         child: Text(
                           row.title,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                     ),
                   ),
                 ),
-              )
-              .toList(),
-        ),
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meal_menu/screens/categories_screen.dart';
+import 'package:meal_menu/screens/main_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CategoriesScreen() as Widget,
+      home: MainScreen(),
     );
   }
 }
