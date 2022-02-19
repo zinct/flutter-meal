@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/data/item_data.dart';
+import 'package:shop/providers/cart_provider.dart';
 import 'package:shop/widgets/home/home_item.dart';
 import 'package:badges/badges.dart';
 
@@ -35,22 +37,18 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         title: Text('MyShop'),
         actions: [
-          Badge(
-            badgeContent: Text('3'),
-            position: BadgePosition.bottomStart(bottom: 25, start: 25),
-            child: IconButton(
-              icon: Icon(Icons.favorite),
-              onPressed: () {},
-            ),
-          ),
-          Badge(
-            showBadge: false,
-            badgeContent: Text('3'),
-            position: BadgePosition.bottomStart(bottom: 25, start: 25),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {},
-            ),
+          Consumer<CartProvider>(
+            builder: (context, value, child) {
+              return Badge(
+                showBadge: value.items.isNotEmpty,
+                badgeContent: Text(value.items.length.toString()),
+                position: BadgePosition.bottomStart(bottom: 25, start: 25),
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {},
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -62,7 +60,14 @@ class HomeScreen extends StatelessWidget {
           childAspectRatio: 5 / 4,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          children: items.map((e) => HomeItem(e)).toList(),
+          children: items
+              .map(
+                (e) => ChangeNotifierProvider.value(
+                  value: e,
+                  child: HomeItem(),
+                ),
+              )
+              .toList(),
         ),
       ),
     );
