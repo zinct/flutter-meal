@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/constants.dart';
 import 'package:shop/data/item_data.dart';
 import 'package:shop/providers/cart_provider.dart';
 import 'package:shop/widgets/home/home_item.dart';
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('MyShop'),
+        title: const Text(APP.name),
         actions: [
           Consumer<CartProvider>(
             builder: (context, value, child) {
@@ -45,7 +46,9 @@ class HomeScreen extends StatelessWidget {
                 position: BadgePosition.bottomStart(bottom: 25, start: 25),
                 child: IconButton(
                   icon: Icon(Icons.shopping_cart),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(ROUTE.cart);
+                  },
                 ),
               );
             },

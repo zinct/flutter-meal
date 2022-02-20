@@ -8,9 +8,14 @@ class CartProvider with ChangeNotifier {
     return [..._items];
   }
 
+  double get totalPrice {
+    return _items.fold(0, (total, row) {
+      return (total as double) + row.price;
+    });
+  }
+
   void addItem(Item item) {
     _items.add(item);
-    print(_items);
     notifyListeners();
   }
 
