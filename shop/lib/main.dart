@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.black,
+        errorColor: Colors.red,
       ),
       routes: appRoute,
     );

@@ -36,7 +36,7 @@ class CartHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Total',
               style: TextStyle(fontSize: 20),
             ),
@@ -85,7 +85,7 @@ class CartBody extends StatelessWidget {
         children: cart.items
             .map((e) => CartItem(
                   e,
-                  key: ValueKey(e.name),
+                  key: ValueKey(e.id),
                 ))
             .toList(),
       ),
@@ -94,25 +94,46 @@ class CartBody extends StatelessWidget {
 }
 
 class CartItem extends StatelessWidget {
-  final Item _item;
+  final Cart _cart;
 
-  const CartItem(this._item, {Key? key}) : super(key: key);
+  const CartItem(this._cart, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Theme.of(context).primaryColor,
-            radius: 30,
-            backgroundImage: NetworkImage(_item.image),
+    final Item _item = _cart.item;
+
+    return Dismissible(
+      key: ValueKey(_cart.id),
+      background: Container(
+        padding: const EdgeInsets.only(right: 20),
+        color: Theme.of(context).errorColor,
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.restore_from_trash,
+            color: Colors.white,
+            size: 40,
           ),
-          title: Text(_item.name),
-          subtitle: Text('Rp. ${_item.price.toString()}'),
-          trailing: Text('1x'),
+        ),
+      ),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        Provider.of<CartProvider>(context, listen: false).removeItem(_cart);
+      },
+      child: Card(
+        elevation: 1,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Theme.of(context).primaryColor,
+              radius: 30,
+              backgroundImage: NetworkImage(_item.image),
+            ),
+            title: Text(_item.name),
+            subtitle: Text('Rp. ${_item.price.toString()}'),
+            trailing: Text('${_cart.quantity.toString()}x'),
+          ),
         ),
       ),
     );
