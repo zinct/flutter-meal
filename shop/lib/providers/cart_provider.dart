@@ -35,4 +35,9 @@ class CartProvider with ChangeNotifier {
     _items.remove(cart);
     notifyListeners();
   }
+
+  void removeLast() {
+    _items.removeLast();
+    notifyListeners();
+  }
 }

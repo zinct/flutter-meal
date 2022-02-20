@@ -98,6 +98,10 @@ class CartItem extends StatelessWidget {
 
   const CartItem(this._cart, {Key? key}) : super(key: key);
 
+  void _handleDismissed(context) {
+    Provider.of<CartProvider>(context, listen: false).removeItem(_cart);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Item _item = _cart.item;
@@ -117,9 +121,7 @@ class CartItem extends StatelessWidget {
         ),
       ),
       direction: DismissDirection.endToStart,
-      onDismissed: (_) {
-        Provider.of<CartProvider>(context, listen: false).removeItem(_cart);
-      },
+      onDismissed: (_) => _handleDismissed(context),
       child: Card(
         elevation: 1,
         child: Container(

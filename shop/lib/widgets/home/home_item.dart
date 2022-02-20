@@ -8,6 +8,23 @@ class HomeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final item = Provider.of<Item>(context);
 
+    void _handleAddItem() {
+      final cart = Provider.of<CartProvider>(context, listen: false);
+
+      cart.addItem(item);
+
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Adding to card successfully'),
+        duration: Duration(seconds: 2),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              cart.removeLast();
+            }),
+      ));
+    }
+
     return GridTile(
       child: Image.network(
         item.image,
@@ -56,10 +73,7 @@ class HomeItem extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Provider.of<CartProvider>(context, listen: false)
-                      .addItem(item);
-                },
+                onTap: () => _handleAddItem(),
                 child: Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
