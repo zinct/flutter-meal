@@ -3,13 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:shop/constants.dart';
 import 'package:shop/data/item_data.dart';
 import 'package:shop/providers/cart_provider.dart';
+import 'package:shop/providers/product_provider.dart';
 import 'package:shop/widgets/home/home_item.dart';
 import 'package:badges/badges.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(context) {
     return Drawer(
       child: Column(
         children: [
@@ -25,6 +26,13 @@ class HomeScreen extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.credit_card),
             title: Text('Order'),
+          ),
+          ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('Manage Product'),
+            onTap: () {
+              Navigator.of(context).pushNamed(ROUTE.manageProduct);
+            },
           ),
         ],
       ),
@@ -55,23 +63,28 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: _buildDrawer(),
-      body: Container(
-        margin: EdgeInsets.all(10),
-        child: GridView.count(
-          crossAxisCount: 2,
-          childAspectRatio: 5 / 4,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          children: items
-              .map(
-                (e) => ChangeNotifierProvider.value(
-                  value: e,
-                  child: HomeItem(),
-                ),
-              )
-              .toList(),
-        ),
+      drawer: _buildDrawer(context),
+      body: Consumer<ProductProvider>(
+        builder: (context, value, child) {
+          print("BUILDING");
+          return Container(
+            margin: EdgeInsets.all(10),
+            child: GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: 5 / 4,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              children: value.item
+                  .map(
+                    (e) => ChangeNotifierProvider.value(
+                      value: e,
+                      child: HomeItem(),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+        },
       ),
     );
   }
