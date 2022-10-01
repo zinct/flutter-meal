@@ -1,4 +1,4 @@
-# meal_menu
+# meal_menus
 
 A new Flutter project.
 
